@@ -1,0 +1,117 @@
+import os, sys, io
+import M5
+from M5 import *
+from hardware import *
+import time
+
+rgb2 = None
+i = None
+pin41 = None
+pin_label = None
+program_state_label = None
+input_pin = None
+input_value = None
+button_value = None
+program_state = "OFF"
+button_timer = 0
+input_timer = 0
+
+rgb_state = None
+
+def setup():
+  global rgb2, i, pin41, input_pin, rgb_state, pin_label, program_state_label
+  M5.begin()
+  pin_label = Widgets.Label("input", 5, 5, 1.0, 0xffffff, 0x000000, Widgets.FONTS.DejaVu18)
+  program_state_label = Widgets.Label("START", 5, 25, 1.0, 0xffffff, 0x000000, Widgets.FONTS.DejaVu18)
+  # initialize RGB LED strip on pin 2 with 10 pixels:
+  #rgb2 = RGB(io=2, n=10, type="SK6812")
+  # initialize RGB LED strip on pin 38 (red connector on PortABC extension) with 10 pixels:
+  rgb2 = RGB(io=5, n=10, type="SK6812")
+  rgb2.fill_color(0x000000)  # fill all pixels black
+  # initialize pin 41 (built-in button):
+  pin41 = Pin(41, mode=Pin.IN)
+  # initialize pin 1 (bottom connector white wire) with pull-up:
+  input_pin = Pin(1, mode=Pin.IN, pull=Pin.PULL_UP)
+  
+
+def loop():
+  global rgb2, i, pin41, button_value, program_state, input_value
+  global button_timer, rgb_state, input_timer, pin_label, program_state_label 
+  M5.update()
+  
+  button_value = pin41.value()  # read built-in button
+  input_value = input_pin.value()  # read input on white wire
+  
+  # check the button every half a second:
+  if time.ticks_ms() > button_timer + 1000:
+    button_timer = time.ticks_ms()  # update button_timer
+    # if button is pressed:
+    #if button_value == 0:
+    # if black and white wire are connected:
+    if input_value == 0:
+      if program_state == "OFF":
+        print('change program_state to ON..')
+        program_state = "ON"
+        program_state_label.setText('RGB ON')
+        pin_label.setText('input LOW')
+        rgb2.fill_color(0x000000)  # fill all pixels black
+        rgb_state = None
+        # fade in to red:
+        for r in range(100):
+          g = 0
+          b = 0
+          rgb2.fill_color((r << 16) | (g << 8) | b)
+          time.sleep_ms(10)
+          
+      else:
+        print('change program_state to OFF')
+        pin_label.setText('input HIGH')
+        program_state = "OFF"
+        rgb2.fill_color(0x000000)
+        program_state_label.setText('RGB OFF')
+        #r = 0
+        #g = 255
+        #b = 0
+        #rgb2.fill_color((r << 16) | (g << 8) | b)
+        # another way to fill with one value:
+        #rgb2.fill_color(0x00ff00)  # fill all pixels green
+        
+  if time.ticks_ms() > input_timer + 200:
+    input_timer = time.ticks_ms()  # update button_timer
+    if button_value == 0:
+      if program_state == "ON" and rgb_state == None:
+        print('first green')
+        program_state = "ON"
+        rgb_state = "Green"
+        rgb2.fill_color(0x009900)  # fill all pixels black
+
+      elif program_state == "ON" and rgb_state == "Red":
+        print('Green')
+        program_state == "ON"
+        rgb_state = "Green"
+        rgb2.fill_color(0x009900)
+    
+      elif program_state == "ON" and rgb_state == "Green":
+        print('Blue')
+        program_state == "ON"
+        rgb_state = "Blue"
+        rgb2.fill_color(0x000099)
+        
+      elif program_state == "ON" and rgb_state == "Blue":
+        print('Red')
+        program_state == "ON"
+        rgb_state = "Red"
+        rgb2.fill_color(0x990000)  
+        
+
+if __name__ == '__main__':
+  try:
+    setup()
+    while True:
+      loop()
+  except (Exception, KeyboardInterrupt) as e:
+    try:
+      from utility import print_error_msg
+      print_error_msg(e)
+    except ImportError:
+      print("please update to latest firmware")
