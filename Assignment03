@@ -1,0 +1,174 @@
+import js as p5
+from js import document
+
+data_string = None
+data_list = None
+sensor_val = None
+button_val = None
+button_state = 'UP'
+
+# load image data and assign it to variable:
+swirl_img = p5.loadImage('swirl.png')
+
+# load font data and assign it to variable:
+jellee_font = p5.loadFont('Jellee.otf')
+
+# load sound data and assign it to variable:
+sound = p5.loadSound('shoot.wav') 
+
+circle_timer = 0
+
+def setup():
+  p5.createCanvas(1000, 1000)
+  # change mode to draw rectangles from center:
+  p5.rectMode(p5.CENTER)
+  # change mode to draw images from center:
+  p5.imageMode(p5.CENTER)
+  # change stroke cap to square:
+  p5.strokeCap(p5.SQUARE)
+
+
+def draw():
+  p5.background(40)
+  global data_string, data_list
+  global sensor_val, button_val
+  global button_state
+  global circle_timer, menge, abstand
+
+  # assign content of "data" div on index.html page to variable:
+  data_string = document.getElementById("data").innerText
+  # split data_string by comma, making a list:
+  data_list = data_string.split(',')
+
+  # assign 1st item of data_list to sensor_val:
+  sensor_val = int(data_list[0])
+  # assign 2nd item of data_list to sensor_val:
+  button_val = int(data_list[1])
+
+  p5.noStroke()  # disable stroke
+  # fill function can take 1 argument (gray)
+  p5.fill(0, 0, 200)  # black fill
+  
+
+  # draw lines responding to button data:
+  #for i in range(8):
+    #if(button_val == 0): 
+      #p5.strokeWeight(i+1)
+    #else: 
+    #  p5.strokeWeight(8-i)
+    #p5.stroke(0)
+    # line function takes (x1, y1, x2, y2)
+    #x1 = x2 = 25 + i * 14
+    #y1 = 175
+    #y2 = 275
+    #p5.line(x1, y1, x2, y2)
+
+  # PLAY SOUND WHEN BUTTON IS PRESSED
+  #if(button_val == 1) and (button_state == 'UP'):
+   # sound.play()
+   # button_state = 'DOWN'
+ # elif(button_val == 0):
+  #  button_state = 'UP'
+
+  # fill function can take (r, g, b, alpha):
+  #p5.fill(0, 255, 0, 150)  # transparent green
+  # change color mode to HSB with transparency:
+  #p5.colorMode(p5.HSB, 255, 255, 255, 255) 
+  # fill function can take (h, s, b, alpha):
+  #p5.fill(255, 255, 255, 150)  # transparent red
+  #p5.noStroke()
+  #p5.rect(200, 200, 50, 50)
+  # change mode back to RGB:
+  #p5.colorMode(p5.RGB)
+
+  # draw image rotating with sensor data:
+  #p5.push()  # save transformation coordinates
+  #p5.translate(225, 225)  # move coordinates by (x, y)
+  # use sensor_val as degrees converted to radians:
+  #angle = p5.radians(sensor_val)  
+  #p5.rotate(angle)  # rotate coordinates
+  # tint function can change transparency of image
+  # fint function takes (r, g, b, alpha)
+  #p5.tint(255, 255, 255, 150)
+  # image function takes (image, x, y, width, height)
+  #p5.image(swirl_img, 0, 0, 100, 100)
+  #p5.pop()  # restore transformation coordinates
+
+  # NEW CODE
+
+  #for i in range(10):  # same as JavaScript for (i=0; i<10; i++)
+  # use sensor_val to control number of shapes between 1-10
+  
+  #for i in range(n):
+    #p5.push()
+    #p5.translate(50, p5.height/2)
+    #p5.fill(0, 255, 0, 100)  # green with transparency
+    #circle_x = i * 20
+    #circle_y = p5.random(p5.height)
+    #p5.ellipse(circle_x, circle_y, 25)
+    #p5.pop()
+
+  #Trunchet Pattern
+  n = int(p5.map(sensor_val, 0, 255, 0, 255))
+  menge = int(1 + n * 0.2)
+  abstand = p5.width / menge; 
+  p5.translate(abstand/2, abstand/2)
+  #Drawing a Grid with a Nested For loop
+  for x in range(menge): 
+    for y in range(menge): 
+      posX = x*abstand
+      posY = y*abstand
+      w = abstand
+      h = abstand
+      if (p5.random(1) < 0.5):
+        p5.fill(160)
+        p5.ellipse(posX, posY, w, h)
+      else:
+        if (p5.random(1) < 0.5):
+          mag = w/2
+          x1 = 0
+          y1 = -mag
+          x2 = mag
+          y2 = mag
+          x3 = -mag
+          y3 = mag
+          p5.push()
+          p5.translate(posX, posY)
+          p5.fill(0, 0, 255)
+          p5.triangle(x1, y1, x2, y2, x3, y3)
+          p5.pop()
+        else:
+          p5.push()
+          p5.translate(posX, posY)
+          p5.fill(240)
+          p5.rect(0,0, w, h)
+          p5.pop()
+          
+  
+  # DRAW MOUSE CIRCLE changing size with sensor data:
+  # ellipse function takes (x, y, width, height)
+  # map function takes (value, in_min, in_max, out_min, out_max)
+  #p5.fill(0, 0, 200)
+  #circle_size = p5.map(sensor_val, 0, 255, 25, 100)
+  #p5.ellipse(p5.mouseX, p5.mouseY, circle_size, circle_size)
+
+
+  # COLOR CHANGING SQUARE with sensor data:
+  # fill function can take (red, green, blue)
+  p5.fill(sensor_val, 0, 255 - sensor_val)  
+  # rectangle function takes (x, y, width, height)
+  p5.rect(p5.mouseX+10, p5.mouseY, 80, 50)
+
+  # draw text:
+  p5.fill(255)  # white fill
+  # use font installed on computer:
+  p5.textFont('Courier')
+  p5.textSize(18)
+  p5.push()
+  p5.translate(6, 6)
+  p5.text(sensor_val, p5.mouseX, p5.mouseY)
+  p5.pop()
+  # use font from loaded font file:
+  #p5.textFont(jellee_font)
+  #p5.textSize(24)
+  #p5.text(button_val, 190, 100)
