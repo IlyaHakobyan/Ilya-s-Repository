@@ -1,4 +1,4 @@
-# using ADC input to control servo movement
+# using ADC input to control servo movement for the MOIRE PATTERN
 # NOTE: servo.py file should be saved to hardware first
 
 import os, sys, io
