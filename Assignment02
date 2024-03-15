@@ -1,3 +1,5 @@
+TRUNCHET PATTERN CONTROLLED WITH THE ADC VALUE
+
 import js as p5
 from js import document
 
@@ -94,7 +96,7 @@ def draw():
   #p5.image(swirl_img, 0, 0, 100, 100)
   #p5.pop()  # restore transformation coordinates
 
-  # NEW CODE
+  # NEW CODE STARTS HERE
 
   #for i in range(10):  # same as JavaScript for (i=0; i<10; i++)
   # use sensor_val to control number of shapes between 1-10
