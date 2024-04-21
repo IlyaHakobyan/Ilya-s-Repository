@@ -16,7 +16,7 @@ A microkeyboard that lets you generate 4 different types of pattern and control 
 
 ### Process Photos
 ![process1](process1.jpg)
-![inside](insidekeyboard.jpg)
+![inside](Insidekeyboard.jpg)
 
 ## **Final Physical Prototype**
 ![physical1](physical1.jpg)
