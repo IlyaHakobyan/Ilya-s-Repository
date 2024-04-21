@@ -15,6 +15,8 @@ A microkeyboard that lets you generate 4 different types of pattern and control 
 ![diagram](finaldiagram.png)
 
 ### Process Photos
+Biggest pain point here was to fit everything in snugly and without having things wiggle or the top part of the box come out because there are a lot of wires. I'd say there probably is a better way of doing this because the amount of wires was a lot to handle and made it much harder and frustrating than it should have been. The box was 3D printed, 3rd attempt. I Just measured the component sizes and recreated them in CAD. It wasn't too hard since I didn't make the cutouts too complex and precise since there's room around the components.
+
 ![process1](process1.jpg)
 ![inside](Insidekeyboard.jpg)
 
