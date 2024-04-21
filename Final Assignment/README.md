@@ -5,7 +5,7 @@ A microkeyboard that lets you generate 4 different types of pattern and control 
 6 components - a potentiometer, slider and 4 switches/keys. These are all conected to an AtomS3 Board extention. and put in a 3D printed Box. The values of those 6 components are first read and mapped in [Thonny](./) and then the values that thonny has are read by [Processing](./) and later used to control the pattern values.
 
 ### Diagram
-![state diagram](state_diagram.png)
+![diagram](finaldiagram.png)
 
 ### Process Photos
 ![img1](img1.png)
