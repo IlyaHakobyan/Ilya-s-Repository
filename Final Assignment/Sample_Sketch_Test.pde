@@ -3,7 +3,8 @@ import processing.serial.*;
 
 Serial myPort;  // Create object from Serial class
 int val;      // Data received from the serial port
-int button1_val = 0;
+//initialize buttons, fader and potentiometer
+int button1_val = 0; 
 int button2_val = 0;
 int button3_val = 0;
 int button4_val = 0;
@@ -12,7 +13,7 @@ int slider_val = 0;
 
 void setup() {
   fullScreen();
-
+  // Serial read
   String portName = Serial.list()[1];
   print(portName);
   myPort = new Serial(this, portName, 115200);
@@ -23,15 +24,15 @@ void draw() {
   background(0);
   fill(#F1F1F1);
   noStroke();
-
+  // Initialize grid modules and their dimensions 
   float tilesX = width/4;
   float tilesY = height/4;
 
   float tileW = width / 80;
   float tileH = height / 45;
-
+  // move canvas
   translate(tileW / 2, tileH / 2);
-
+  // Nested for loop that creates a grid and 4 if statements for each button to generate a different sin wave pattern
   for (int x = 0; x < tilesX; x++) {
     for (int y = 0; y < tilesY; y++) {
       if ( button1_val == 0 ) {
@@ -81,7 +82,7 @@ void draw() {
       }
     }
   }
-
+  / Reading Serial port data and assigning it to variables for printing and debugging
   if ( myPort.available() > 0) {  // If data is available,
 
     String tempString = myPort.readStringUntil('\n');
